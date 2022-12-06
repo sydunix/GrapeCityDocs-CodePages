@@ -19,6 +19,7 @@ public class ValuesController : ControllerBase
     // IN key FIELD also, SELECT file IN THE DROPDOWN MENU (INSTEAD OF TEXT)
     // NEXT, GO TO value FIELD, SELECT ALL FOUR(4) files YOU WISH TO UPLOAD TO S3
     // NOTE THE DEFAULT NAME GIVEN TO S3 BUCKET -> "gcpdf" YOU CAN CHANGE THIS IN CODE
+    // NOTE THAT YOU WILL NEED YOUR ACCESSKEY AND SECRETKEY ALREADY MAPPED TO APPROPRIATE IAM ROLE
     // THEN SELECT POST METHOD AND CLICK SEND
     
     [HttpPost("upload")]
@@ -29,7 +30,7 @@ public class ValuesController : ControllerBase
         var credentials = new BasicAWSCredentials("MYACCESSKEY", "MYSECRETKEY");
         var config = new AmazonS3Config
         {
-            RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName("us-east-2")
+            RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName("region") // WHERE example of region = us-east-2
         };
         using var client = new AmazonS3Client(credentials, config);
 
