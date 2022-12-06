@@ -14,33 +14,32 @@ public class ValuesController : ControllerBase
 
     // POST api/values/upload
 
-    // On Postman App, go to body, form-data
-    // Type files in Key field
-    // Also in Key field, select file in the dropdown menu (instead of text)
-
-    // Next, go to Value field, highlight the four files where located, all at once
-
-    // Then Select POST method
-
-    // Click send
+    // ON POSTMAN APP, GO TO "body", "form-data"
+    // TYPE "files" IN key FIELD
+    // IN key FIELD also, SELECT file IN THE DROPDOWN MENU (INSTEAD OF TEXT)
+    // NEXT, GO TO value FIELD, SELECT ALL FOUR(4) files YOU WISH TO UPLOAD TO S3
+    // NOTE THE DEFAULT NAME GIVEN TO S3 BUCKET -> "gcpdf" YOU CAN CHANGE THIS IN CODE
+    // THEN SELECT POST METHOD AND CLICK SEND
     
     [HttpPost("upload")]
     public async Task<IActionResult> OnPostUploadAsync([FromForm] List<IFormFile> files)
     {
-
-
+       
+        // INITIALIZE AWS S3 SDK CREDENTIALS, REGION, CLIENT
         var credentials = new BasicAWSCredentials("MYACCESSKEY", "MYSECRETKEY");
         var config = new AmazonS3Config
         {
-            RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName("REGION") //Example us-east-2
+            RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName("us-east-2")
         };
         using var client = new AmazonS3Client(credentials, config);
 
+        // CHECK HOW MANY ITEMS WERE UPLOADED
         long size = files.Sum(f => f.Length);
         Console.WriteLine("Hey: " + size);
 
 
-
+        // AS LONG AS SOMETHING WAS UPLOADED BY CLIENT IN FORM (POSTMAN)
+        // LOOP THROUGH THE FILES ARRAY AND UPLOAD EACH TO S3 BUCKET "gcpdf"
         foreach (var formFile in files)
         {
             if (formFile.Length > 0)
@@ -63,12 +62,11 @@ public class ValuesController : ControllerBase
                     await fileTransferUtility.UploadAsync(uploadRequest);
                 }
 
-
             }
         }
 
-        // Process uploaded files
-        // Don't rely on or trust the FileName property without validation.
+        // PROCESS UPLOADED FILES
+        // DO NOT RELY OR TRUST THE FileName PROPERTY WITHOUT VALIDATION
 
         return Ok(new { count = files.Count, size });
     }
