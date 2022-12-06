@@ -23,7 +23,7 @@ public class ValuesController : ControllerBase
     [HttpPost("merge/pdf")]
     public async Task<IEnumerable<string>> PostAsync([FromQuery] MergePdfs key)
     {
-        // MAKING SURE INPUT PARAMATERS ARE NOT NULL OR EMPTY
+        // VALIDATING INPUT
         if (string.IsNullOrEmpty(key.Key1) || string.IsNullOrEmpty(key.Key2))
         {
             return new string[] { "Bad request!", "Input should NOT be empty!" };
@@ -31,7 +31,7 @@ public class ValuesController : ControllerBase
 
         else // CONTINUE
         {
-            // RETRIEVE NAME OF UPLOADED PDF
+            // RETRIEVE QUERY/PARAMs INPUTS i.e NAME OF UPLOADED PDF TO S3
             string upload1 = key.Key1;
             string upload2 = key.Key2;
 
@@ -43,9 +43,10 @@ public class ValuesController : ControllerBase
             };
             using var client = new AmazonS3Client(credentials, config);
 
-            // INITIALIZE THE TRANSFERUTILITY OBJECT WHICH DOES UPLOAD & DOWNLOAD
+            // INITIALIZE THE S3 TRANSFERUTILITY OBJECT WHICH DOES UPLOAD & DOWNLOAD
             TransferUtility fileTransferUtility = new TransferUtility(client);
 
+            // https://learn.microsoft.com/en-us/dotnet/api/system.io.path.gettemppath?view=net-7.0&tabs=windows#remarks
             string pathway = Path.GetTempPath();
             
             // DEFINE S3 DOWNLOAD REQUEST
@@ -64,7 +65,7 @@ public class ValuesController : ControllerBase
 
             };
 
-            // DOWNLOAD THE TWO(2) PDFs ASYNCHRONOUSLY, WAIT TILL COMPLETION
+            // DOWNLOAD THE TWO(2) PDF ARTIFACT ASYNCHRONOUSLY, WAIT TILL COMPLETION
             await fileTransferUtility.DownloadAsync(downloadRequest1);
             await fileTransferUtility.DownloadAsync(downloadRequest2);
 
