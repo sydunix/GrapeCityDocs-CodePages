@@ -8,7 +8,7 @@ using Amazon.S3.Model;
 namespace GrapeCityDocsAWSLambda.Controllers;
 
 
-// MergePdfs CLASS DEFINES INPUT PARAMETES - KEY & VALUE
+// MergePdfs CLASS DEFINES INPUT PARAMETERS - KEY & VALUE
 public class MergePdfs
 {
     public string? Key1 { get; set; }
