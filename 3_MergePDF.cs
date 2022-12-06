@@ -45,18 +45,20 @@ public class ValuesController : ControllerBase
 
             // INITIALIZE THE TRANSFERUTILITY OBJECT WHICH DOES UPLOAD & DOWNLOAD
             TransferUtility fileTransferUtility = new TransferUtility(client);
+
+            string pathway = Path.GetTempPath();
             
             // DEFINE S3 DOWNLOAD REQUEST
             var downloadRequest1 = new TransferUtilityDownloadRequest()
             {
-                FilePath = @"" + upload1,
+                FilePath = pathway + upload1,
                 BucketName = "gcpdf",
                 Key = upload1
 
             };
             var downloadRequest2 = new TransferUtilityDownloadRequest()
             {
-                FilePath = @"" + upload2,
+                FilePath = pathway + upload2,
                 BucketName = "gcpdf",
                 Key = upload2
 
@@ -69,21 +71,21 @@ public class ValuesController : ControllerBase
 
             // Create Pdf Document
             GcPdfDocument pdf1 = new GcPdfDocument();
-            var fsone = new FileStream(Path.Combine(@"/tmp/" + upload1), FileMode.Open, FileAccess.Read);
+            var fsone = new FileStream(Path.Combine(pathway + upload1), FileMode.Open, FileAccess.Read);
             //Load the document
             pdf1.Load(fsone);
 
             // Create Pdf Document
             GcPdfDocument pdf2 = new GcPdfDocument();
-            var fstwo = new FileStream(Path.Combine(@"/tmp/" + upload2), FileMode.Open, FileAccess.Read);
+            var fstwo = new FileStream(Path.Combine(pathway + upload2), FileMode.Open, FileAccess.Read);
             //Load the document
             pdf2.Load(fstwo);
 
             pdf1.MergeWithDocument(pdf2, new MergeDocumentOptions());
 
             // Save PDF Locally, Rootpath
-            pdf1.Save("/tmp/mergedInvoice.pdf");
-            string path = @"/tmp/mergedInvoice.pdf";
+            pdf1.Save(pathway + "mergedInvoice.pdf");
+            string path = pathway + "mergedInvoice.pdf";
 
 
             // UPLOAD MERGED PDF TO S3 BUCKET
@@ -98,7 +100,7 @@ public class ValuesController : ControllerBase
             await fileTransferUtility.UploadAsync(uploadRequest);
 
 
-            // RETURN DOWNLOAD S3 URL TO MERGED PDF
+            // RETURN DOWNLOAD S3 URL OF MERGED PDF
             GetPreSignedUrlRequest request = new GetPreSignedUrlRequest
             {
                 BucketName = "gcpdf",
