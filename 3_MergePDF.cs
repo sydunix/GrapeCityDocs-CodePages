@@ -8,7 +8,7 @@ using Amazon.S3.Model;
 namespace GrapeCityDocsAWSLambda.Controllers;
 
 
-// MergePdfs CLASS DEFINES INPUT PARAMETERS - KEY & VALUE
+// MergePdfs CLASS DEFINES INPUT PARAMETES - KEY & VALUE
 public class MergePdfs
 {
     public string? Key1 { get; set; }
@@ -39,7 +39,7 @@ public class ValuesController : ControllerBase
             var credentials = new BasicAWSCredentials("MYACCESSKEY", "MYSECRETKEY");
             var config = new AmazonS3Config
             {
-                RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName("us-east-2")
+                RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName("us-east-2") // CHANGE REGION TO YOURS
             };
             using var client = new AmazonS3Client(credentials, config);
 
