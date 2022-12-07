@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using GrapeCity.Documents.Common;
 using System.Text;
 
-namespace GApi.Controllers;
+namespace GrapeCityDocsAWSLambda.Controllers;
 
 // SplitPdfs CLASS DEFINES INPUT PARAMETERS - KEY & VALUE
 public class SplitPdfs
