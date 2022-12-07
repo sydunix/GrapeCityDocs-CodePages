@@ -1,12 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using GrapeCity.Documents.Pdf;
-using System.Reflection.Metadata.Ecma335;
 using Amazon.S3.Transfer;
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
 using System.IO.Compression;
-using System.ComponentModel.DataAnnotations;
 using GrapeCity.Documents.Common;
 using System.Text;
 
@@ -178,5 +176,4 @@ public class ValuesController : ControllerBase
 
         }
     }
-
 }
