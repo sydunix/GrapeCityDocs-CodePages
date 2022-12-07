@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using GrapeCity.Documents.Pdf;
 using Amazon.S3.Transfer;
 using Amazon.Runtime;
 using Amazon.S3;
-using Amazon.S3.Model;
+
 
 namespace GrapeCityDocsAWSLambda.Controllers;
 
@@ -30,7 +29,7 @@ public class ValuesController : ControllerBase
         var credentials = new BasicAWSCredentials("MYACCESSKEY", "MYSECRETKEY");
         var config = new AmazonS3Config
         {
-            RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName("region") // WHERE example of region = us-east-2
+            RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName("us-east-2") // CHANGE REGION TO YOURS
         };
         using var client = new AmazonS3Client(credentials, config);
 
