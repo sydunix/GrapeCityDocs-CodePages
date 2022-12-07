@@ -14,9 +14,9 @@ public class ValuesController : ControllerBase
 
     // POST api/values/upload
 
-    // ON POSTMAN APP, GO TO "body", "form-data"
+    // ON POSTMAN APP, GO TO "Body", "form-data"
     // TYPE "files" IN key FIELD
-    // IN key FIELD also, SELECT file IN THE DROPDOWN MENU (INSTEAD OF TEXT)
+    // IN key FIELD also, SELECT File IN THE DROPDOWN MENU (INSTEAD OF TEXT)
     // NEXT, GO TO value FIELD, SELECT ALL FOUR(4) files YOU WISH TO UPLOAD TO S3
     // NOTE THE DEFAULT NAME GIVEN TO S3 BUCKET -> "gcpdf" YOU CAN CHANGE THIS IN CODE
     // NOTE THAT YOU WILL NEED YOUR ACCESSKEY AND SECRETKEY ALREADY MAPPED TO APPROPRIATE IAM ROLE
