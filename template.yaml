@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Sample SAM Template for GrapeCityDocsAWSLambda
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 100
+
+Resources:
+  NetCodeWebAPIServerless:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      Description: A simple lambda api gateway API that includes a .NET Core runtime.
+      CodeUri: ./src/GrapeCityDocsAWSLambda/
+      Handler: GrapeCityDocsAWSLambda
+      Runtime: dotnet6
+      MemorySize: 512
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          PARAM1: VALUE
+      Policies:
+
+      Events:
+        ProxyResource:
+          Type: HttpApi
+          Properties:
+            PayloadFormatVersion: "2.0"
+            Path: /{proxy+}
+            Method: ANY
+        RootResource:
+          PayloadFormatVersion: "2.0"
+          Type: HttpApi
+          Properties:
+            Path: /
+            Method: ANY
+
+Outputs:
+  WebEndpoint:
+    Description: "API Gateway endpoint URL"
+    Value: "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
